@@ -30,28 +30,22 @@ def calc_dist(point1, point2):
 
 
 road = []
+prevPoints = []
 
-for k in range(0, 10):
-    min = calc_dist(vehicles[0].at, points[0])
+for idx in range(10):
+
     minPoint = points[0]
-    prevPoint = points[0]
+    min = calc_dist(vehicles[0].at, points[0])
 
     for i in range(1, len(points)):
         minTmp = calc_dist(vehicles[0].at, points[i])
-        print("min:" + prevPoint.name)
-        print(points[i].name)
-        if prevPoint.name == points[i].name:
+        if points[i].name in prevPoints:
             continue
         if minTmp < min:
             minPoint = points[i]
             min = minTmp
-
-    # print(minPoint.name)
-    # print(vehicles[0].at.name)
-    print(minPoint.name)
-    print(vehicles[0].at.name)
-    vehicles[0].at = minPoint
-    prevPoint = minPoint
+        vehicles[0].at = minPoint
+    prevPoints.append(minPoint.name)
     road.append(minPoint.name)
-
 print(road)
+

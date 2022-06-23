@@ -38,7 +38,7 @@ def calc_value(position, target, vehicle):
         return 99999999999
     if target.name == vehicle.at.name:
         return 99999999999
-    #resultValue = 1 / ((demandValue / (dist+1)) + 1)
+    # resultValue = 1 / ((demandValue / (dist+1)) + 1)
     # resultValue = demandValue/(dist+1)
     resultValue = dist / demandValue
     return resultValue
@@ -54,7 +54,6 @@ def check_end():
 
 
 def find_closest_warehouse(location):
-    closest = warehouses[0]
     closestDist = calc_dist(location, warehouses[0])
     closestI = 0
     for w1 in range(1, len(warehouses)):
@@ -70,6 +69,7 @@ def sum_all():
     for p in points:
         sum += math.fabs(p.demand.oranges) + math.fabs(p.demand.uranium) + math.fabs(p.demand.tuna)
     return sum
+
 
 roads = []
 
@@ -131,12 +131,30 @@ while not check_end():
             vehicles[truck].at = warehouses[find_closest_warehouse(vehicles[truck].at)]
         if vehicles[truck].unload_warehouse():
             vehicles[truck].at = warehouses[find_closest_warehouse(vehicles[truck].at)]
-        road.append(vehicles[truck].at.name)
+        # road.append(vehicles[truck].at.name)
+        road.append(vehicles[truck].at)
 
     for tr in range(0, len(vehicles)):
         roads[tr][0].append(road[tr])
     road = []
     sum = 0
 
+plt.figure(figsize=[15, 15])
+plt.suptitle('Trasy\n')
+sub = 1
+
 for road1 in roads:
-    print(road1[0])
+    print([i.name for i in road1[0]])
+    plt.subplot(3, 2, sub)
+    plt.title(f'Trasa pojazdu nr {sub}')
+    plt.xlabel('współrzędna x')
+    plt.ylabel('współrzędna y')
+    plt.xticks([0, 25, 50, 75, 100])
+    plt.yticks([0, 25, 50, 75, 100])
+    x = [int(i.x) for i in road1[0]]
+    y = [int(i.y) for i in road1[0]]
+    plt.plot(x, y, 'o--r', ms=10, alpha=.3)
+    sub += 1
+
+plt.savefig('trasy.png')
+plt.show()

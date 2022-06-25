@@ -71,6 +71,15 @@ def sum_all():
     return sum
 
 
+def dist(points):
+    d = 0
+    marker = points[0]
+    for i in range(1, len(points)):
+        d += calc_dist(marker, points[i])
+        marker = points[i]
+    return str(round(d, 2)) + ' km'
+
+
 roads = []
 
 for tr in range(0, len(vehicles)):
@@ -146,7 +155,7 @@ sub = 1
 for road1 in roads:
     print([i.name for i in road1[0]])
     plt.subplot(3, 2, sub)
-    plt.title(f'Trasa pojazdu nr {sub}')
+    plt.title(f'Trasa pojazdu nr {sub}: {dist(road1[0])}')
     plt.xlabel('współrzędna x')
     plt.ylabel('współrzędna y')
     plt.xticks([0, 25, 50, 75, 100])
